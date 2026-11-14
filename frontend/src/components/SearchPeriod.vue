@@ -84,9 +84,11 @@ onMounted(async () => {
   }
   allWeeks.value = getAllWeeksInSection(currentSection)
   if (allWeeks.value.length > 0) {
-    // allWeeks is sorted by weekNumber, so the first and last weeks are the first and last elements
-    firstWeek.value = allWeeks.value[0]
-    lastWeek.value = allWeeks.value[allWeeks.value.length - 1]
+    // allWeeks is sorted by weekNumber, so the first and last weeks are the first and last elements.
+    // Non-null assertions: the length > 0 check above guarantees both indexes exist; TypeScript cannot
+    // narrow array indexes from a length check (noUncheckedIndexedAccess).
+    firstWeek.value = allWeeks.value[0]!
+    lastWeek.value = allWeeks.value[allWeeks.value.length - 1]!
   }
 
   // By default, select start and end to the current week
