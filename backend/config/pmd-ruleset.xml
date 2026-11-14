@@ -13,5 +13,16 @@
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
     <description>PMD quickstart, with Project Pulse's decisions.</description>
     <rule ref="rulesets/java/quickstart.xml">
+        <!-- D2: Turned off. Every flagged constructor is an explicit no-arg constructor kept on purpose. Most are
+             JPA entities (e.g. Activity()), where JPA requires one. The rest (PeerEvaluationAverage,
+             WeeklyPeerEvaluationReport, RatingAverage, Result) are mutable JavaBeans; EvaluationService builds
+             the first two with new X() and setters. backend/CLAUDE.md requires explicit constructors (no Lombok). -->
+        <exclude name="UncommentedEmptyConstructor"/>
+        <exclude name="UnnecessaryConstructor"/>
+        <!-- D3: Enforced (no exclude). Every unbraced if was given braces; a braceless if lets a second
+             statement look guarded when it is not. -->
+        <!-- D4: Turned off. Every log call uses SLF4J {} placeholders with cheap arguments, so message
+             formatting is already deferred until the level is enabled; an isXxxEnabled() guard adds nothing. -->
+        <exclude name="GuardLogStatement"/>
     </rule>
 </ruleset>

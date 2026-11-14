@@ -7,4 +7,13 @@
 
      Unlike the baseline, this file may grow, but every entry is a reviewed decision. -->
 <FindBugsFilter>
+  <!-- D1: Turned off. Checked by class kind across all 219 findings:
+       - JPA entities (144): must share their managed collections and associations with Hibernate; a defensive
+         copy in a getter or setter breaks dirty checking and orphanRemoval (e.g. Course.getSections()).
+       - Spring beans (27): store the collaborators Spring injects (e.g. ActivityController.activityService).
+       - DTOs, records and result holders (48): built per request by converters or services and handed straight
+         to Jackson; nothing keeps a reference after the response. The one long-lived object, DocumentTemplate
+         (cached by DocumentTemplateRegistry), has its sections only iterated, never modified (DocumentService).
+       None is an exposure bug in this codebase. -->
+  <Match><Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/></Match>
 </FindBugsFilter>
