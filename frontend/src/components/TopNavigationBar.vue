@@ -71,7 +71,12 @@ const userInfoStore = useUserInfoStore()
 const settingsStore = useSettingsStore()
 
 import { inject } from 'vue'
-const { isCollapse, toggleCollapse } = inject('menuCollapse')
+import { menuCollapseKey } from '@/components/menuCollapse'
+const menuCollapse = inject(menuCollapseKey)
+if (!menuCollapse) {
+  throw new Error('TopNavigationBar must be rendered inside Dashboard, which provides menuCollapse')
+}
+const { isCollapse, toggleCollapse } = menuCollapse
 
 const refresh = () => {
   router.go(0)
